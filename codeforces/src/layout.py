@@ -1,6 +1,6 @@
 from dash import html, dcc
 
-from codeforces.src.database.data_classes import Student, SortFields
+from codeforces.src.database.data_classes import SortFields
 
 layout = html.Div(children=[
     html.Div(

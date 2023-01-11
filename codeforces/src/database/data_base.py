@@ -3,10 +3,6 @@ from copy import deepcopy
 from pathlib import Path
 from typing import Dict, List
 
-import requests
-import six.moves.urllib.request as urlreq
-
-import settings
 from codeforces.src.database.data_classes import Student, StudentFields
 from codeforces.src.database.serializer import Serializer
 from codeforces.src.utils.singleton import Singleton
