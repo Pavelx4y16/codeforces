@@ -1,0 +1,4 @@
+-r common.in
+
+# pip-tools
+pytest
