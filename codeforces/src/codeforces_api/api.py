@@ -19,7 +19,7 @@ class AsyncCodeForcesApi:
                 return await response.json()
 
     @with_session
-    async def get_contests(self, nick_name: str, *, session: aiohttp.ClientSession = None):
+    async def get_user_contests(self, nick_name: str, *, session: aiohttp.ClientSession = None):
         return await self._get(session, f"user.rating?handle={nick_name}")
 
     @with_session

@@ -17,10 +17,9 @@ def test_get_contests(codeforces_client):
 
 
 def test_get_user_info(codeforces_client):
-    data = codeforces_client.get_user_info("Pavelx4y16")
+    user_info = codeforces_client.get_user_info("Pavelx4y16")
 
-    user_info = data[0]
-    assert user_info['rank'] == "specialist"
+    assert user_info['rank'] == "специалист"
     assert user_info['rating'] >= 1000
 
 

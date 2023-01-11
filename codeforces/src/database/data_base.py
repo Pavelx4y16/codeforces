@@ -10,6 +10,7 @@ import settings
 from codeforces.src.database.data_classes import Student, StudentFields
 from codeforces.src.database.serializer import Serializer
 from codeforces.src.utils.singleton import Singleton
+from codeforces.src.utils.str_utils import split_fio
 from codeforces.src.utils.utils import validate_arguments
 
 
@@ -106,14 +107,7 @@ class DbClient(Singleton):
 
         student_info = [user_info['rating'], user_info.get('city') or city_name.capitalize()]
 
-        last_name = None
-        first_name = None
-        fio = fio.strip() if fio else None
-        if fio:
-            fio = fio.split(" ")
-            last_name = fio[0]
-            if len(fio) == 2:
-                first_name = fio[1]
+        last_name, first_name = split_fio(fio)
         student_info += [last_name or user_info.get('lastName'), first_name or user_info.get('firstName'),
                          nick_name, grade, school_name or user_info.get('organization'), None, None]
 
