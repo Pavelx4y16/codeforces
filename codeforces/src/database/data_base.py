@@ -72,29 +72,23 @@ class DbClient(Singleton):
         students = [student for student in self.cities[city_name] if student.nick_name != nick_name]
         self._save_city(city_name, students)
 
-    def update_table(self):
+    def update_users_contests(self, users_contests_info):
         for city_name, students in self.cities.items():
             for student in students:
-                # req = "https://codeforces.com/api/user.rating?handle=" + student.nick_name
-                # response = requests.get(req, timeout=60)
-                # coroutines = []
-                if response.status_code != 200:
-                    continue
-                response = response.json()
-                response = response.get('result')
-                response = response[-1] if response else None
-                if response:
-                    student.last_round = response["contestName"]
-                    student.date = response["ratingUpdateTimeSeconds"]
-                    student.rating = response["newRating"]
-            self._save_city(city_name, students)
+                user_contests_info = users_contests_info[student.nick_name]
+                if user_contests_info:
+                    last_contest = user_contests_info[-1]
+                    student.last_round = last_contest["contestName"]
+                    student.date = last_contest["ratingUpdateTimeSeconds"]
+                    student.rating = last_contest["newRating"]
+            self._save_city(city_name, students)  # Student's objects are references here --- not necessary to save them
 
     def _update_grade(self, number):
         for city_name, students in self.cities.items():
             for student in students:
                 if student.grade:
                     student.grade += number
-            self._save_city(city_name, students)
+            self._save_city(city_name, students)  # Student's objects are references here --- not necessary to save them
 
     def to_next_grade(self):
         self._update_grade(1)
@@ -106,37 +100,22 @@ class DbClient(Singleton):
         for city_name, students in self.cities.items():
             self._save_city(city_name, [student for student in students if student.grade <= 11])
 
-    def add_student(self, city_name, nickname, fio, grade, school_name):
-        if not nickname:
-            return "Никнейм не был введен"
-        webp = urlreq.urlopen("https://codeforces.com/profile/" + nickname + "?locale=ru").read().decode("utf-8")
-        ptrn = '<div style="font-size: 0.8em; color: #777;">'
-        text = ""
-        if not fio:
-            fio = ""
-            for line in webp:
-                text = text + line
-                pos = text.find(ptrn) + len(ptrn)
-            if pos != 43:
-                while text[pos] != '<' and text[pos] != ',':
-                    fio += text[pos]
-                    pos = pos + 1
+    def add_student(self, city_name, nick_name, fio, grade, school_name, user_info):
+        if not nick_name:
+            raise Exception("fill 'nick_name' field")
 
-        response = requests.get('https://codeforces.com/api/user.info?handles=' + nickname, params={"lang": "ru"})
-        response = response.json()['result'][0]
+        student_info = [user_info['rating'], user_info.get('city') or city_name.capitalize()]
 
-        student_info = [response.get('rating'), city_name.capitalize()]
+        last_name = None
+        first_name = None
         fio = fio.strip() if fio else None
         if fio:
             fio = fio.split(" ")
-            student_info.append(fio[0])
+            last_name = fio[0]
             if len(fio) == 2:
-                student_info.append(fio[1])
-            else:
-                student_info.append(None)
-        else:
-            student_info += [None, None]
-        student_info += [nickname, grade, school_name, None, None]
+                first_name = fio[1]
+        student_info += [last_name or user_info.get('lastName'), first_name or user_info.get('firstName'),
+                         nick_name, grade, school_name or user_info.get('organization'), None, None]
 
         new_student = Serializer.deserialize_one(student_info)
         self._save_city(city_name, self.cities[city_name] + [new_student])

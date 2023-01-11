@@ -33,22 +33,28 @@ class AsyncCodeForcesApi:
 
 
 class CodeForcesApi:
-    def __init__(self, base_url="https://codeforces.com/api"):
+    def __init__(self, base_url="https://codeforces.com/api", lang="ru"):
         self.base_url = base_url
+        self.base_params = {'lang': lang}
 
-    def _get(self, url: str) -> dict:
+    def _get(self, url: str) -> list:
         time.sleep(2)
-        response = requests.get(f"{self.base_url}/{url}")
+        response = requests.get(f"{self.base_url}/{url}", params=self.base_params)
         if response.status_code == 200:
-            return response.json()
+            return response.json()['result']
 
-    def get_contests(self, nick_name: str):
+    def get_user_contests(self, nick_name: str):
         return self._get(f"user.rating?handle={nick_name}")
 
-    def get_user_info(self, nick_name: str):
-        return self._get(f"user.info?handles={nick_name}")
+    def get_users_contests(self, students: List[Student]) -> dict:
+        return {student.nick_name: self.get_user_contests(student.nick_name) for student in students}
 
-    def get_users_info(self, students: List[Student]):
-        return (self.get_user_info(student.nick_name) for student in students)
+    def get_user_info(self, nick_names: str):
+        return self._get(f"user.info?handles={nick_names}")
 
+    def get_users_info(self, students: List[Student]) -> dict:
+        # todo: this works only if all nick_names are valid
+        #       return self.get_user_info(';'.join([student.nick_name for student in students]))
+        # consider nick validation (maybe filter out all nicks as the application starts)
+        return {student.nick_name: self.get_user_info(student.nick_name) for student in students}
 

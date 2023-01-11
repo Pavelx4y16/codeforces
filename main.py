@@ -1,12 +1,9 @@
-import asyncio
-from copy import deepcopy
-
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
 
 import settings
-from codeforces.src.codeforces_api.api import AsyncCodeForcesApi
+from codeforces.src.codeforces_api.api import CodeForcesApi
 from codeforces.src.database.data_base import DbClient
 from codeforces.src.database.data_classes import Student, SortFields
 from codeforces.src.layout import layout
@@ -17,11 +14,11 @@ app = dash.Dash(__name__)
 app.layout = layout
 
 
-def last_attributes_view_change():
+def last_round_view_change():
     Student.view_last_round_attributes = not Student.view_last_round_attributes
 
 
-def school_attributes_view_change():
+def school_view_change():
     Student.view_school_attributes = not Student.view_school_attributes
 
 
@@ -80,21 +77,22 @@ def goto_backup():
        State('educ', 'value'),
        State('remove-nickname', 'value')]
               )
-def render_content(tab, btn1, btn2, btn3, btn4, btn5, btn6, sort_menu, btn7, btn8, nickname, add_fio, grade, educ,
+def render_content(tab, btn1, btn2, btn3, btn4, btn5, btn6, sort_menu, btn7, btn8, nick_name, add_fio, grade, educ,
                    remove_nickname):
     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
     global username
     if (username == 'admin') and ('add-student' in changed_id):
-        db_client.add_student(tab, nickname, add_fio, grade, educ)
+        user_info = codeforces_client.get_user_info(nick_name)
+        db_client.add_student(tab, nick_name, add_fio, grade, educ, user_info)
     elif (username == 'admin') and ('remove-student-button' in changed_id):
         db_client.remove_student(tab, remove_nickname)
     elif 'educ-view-button' in changed_id:
-        school_attributes_view_change()
+        school_view_change()
     elif 'columns-veiw' in changed_id:
-        last_attributes_view_change()
+        last_round_view_change()
     elif (username == 'admin') and ('update-table-button' in changed_id):
-        students_info = asyncio.run(codeforces_client.get_users_info(db_client.students))
-        db_client.update_table(students_info)
+        users_contests_info = codeforces_client.get_users_contests(db_client.students)
+        db_client.update_users_contests(users_contests_info)
     elif (username == 'admin') and ('to-next-grade-button' in changed_id):
         db_client.to_next_grade()
     elif (username == 'admin') and ('to-prev-grade-button' in changed_id):
@@ -180,5 +178,5 @@ def show_admin_panel(button, val):
 
 if __name__ == '__main__':
     with DbClient(url=settings.cities_path) as db_client:
-        codeforces_client = AsyncCodeForcesApi()
+        codeforces_client = CodeForcesApi()
         app.run_server(debug=True)

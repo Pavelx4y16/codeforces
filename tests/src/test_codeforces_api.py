@@ -1,14 +1,5 @@
 import pytest
 
-import settings
-from codeforces.src.codeforces_api.api import CodeForcesApi
-from codeforces.src.database.data_base import DbClient
-
-
-@pytest.fixture
-def codeforces_client():
-    return CodeForcesApi()
-
 
 def test_get_method(codeforces_client):
 
@@ -20,25 +11,38 @@ def test_get_method(codeforces_client):
 
 
 def test_get_contests(codeforces_client):
-    data = codeforces_client.get_contests("Pavelx4y16")
+    data = codeforces_client.get_user_contests("Pavelx4y16")
 
-    assert len(data['result']) == 5
+    assert len(data) == 5
 
 
 def test_get_user_info(codeforces_client):
     data = codeforces_client.get_user_info("Pavelx4y16")
 
-    user_info = data['result'][0]
+    user_info = data[0]
     assert user_info['rank'] == "specialist"
     assert user_info['rating'] >= 1000
 
 
-def test_get_users_info(codeforces_client):
-    students = DbClient(url=settings.cities_path).students
+@pytest.mark.skip(reason="this test takes to long time")
+def test_get_users_info(codeforces_client, db_client):
+    students = db_client.students
     users_info = list(codeforces_client.get_users_info(students))
 
     total = len(students)
     assert len(users_info) == total
 
     failed = len([user_info for user_info in users_info if user_info is None])
+    print(f"Failure percentage: {failed / total}")  # failures may be here because of non-existing nick_names
+
+
+@pytest.mark.skip(reason="this test takes to long time")
+def test_get_users_contests(codeforces_client, db_client):
+    students = db_client.students
+    users_contests = list(codeforces_client.get_users_contests(students))
+
+    total = len(students)
+    assert len(users_contests) == total
+
+    failed = len([user_info for user_info in users_contests if user_info is None])
     print(f"Failure percentage: {failed / total}")  # failures may be here because of non-existing nick_names

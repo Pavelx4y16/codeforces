@@ -9,30 +9,30 @@ from codeforces.src.database.data_base import DbClient
 
 
 @pytest.fixture
-def codeforces_client():
+def async_codeforces_client():
     return AsyncCodeForcesApi()
 
 
-async def test_get_method(codeforces_client):
+async def test_get_method(async_codeforces_client):
 
     urls = ["user.rating?handle=Pavelx4y16",
             "user.info?handles=Pavelx4y16"]
     async with aiohttp.ClientSession() as session:
-        coroutins = [codeforces_client._get(session, url) for url in urls]
+        coroutins = [async_codeforces_client._get(session, url) for url in urls]
         data = await asyncio.gather(*coroutins)
 
     assert len(data) == 2
 
 
-async def test_get_contests(codeforces_client):
-    coroutins = [codeforces_client.get_contests("Pavelx4y16")]
+async def test_get_contests(async_codeforces_client):
+    coroutins = [async_codeforces_client.get_user_contests("Pavelx4y16")]
     data = await asyncio.gather(*coroutins)
 
     assert len(data[0]['result']) == 5
 
 
-async def test_get_user_info(codeforces_client):
-    coroutins = [codeforces_client.get_user_info("Pavelx4y16")]
+async def test_get_user_info(async_codeforces_client):
+    coroutins = [async_codeforces_client.get_user_info("Pavelx4y16")]
     data = await asyncio.gather(*coroutins)
 
     user_info = data[0]['result'][0]
@@ -40,9 +40,9 @@ async def test_get_user_info(codeforces_client):
     assert user_info['rating'] >= 1000
 
 
-async def test_get_users_info(codeforces_client):
+async def test_get_users_info(async_codeforces_client):
     students = DbClient(url=settings.cities_path).students
-    coroutins = [codeforces_client.get_users_info(students)]
+    coroutins = [async_codeforces_client.get_users_info(students)]
     data = await asyncio.gather(*coroutins)
 
     users_info = data[0]
