@@ -1,7 +1,7 @@
 from typing import List, Iterable
 
 from codeforces.src.database.data_classes import Student, StudentFields
-from codeforces.src.utils.utils import to_int, to_date_str, to_str
+from codeforces.src.utils.utils import to_int, to_str
 
 
 class Serializer:
