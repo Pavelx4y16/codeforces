@@ -91,8 +91,9 @@ def render_content(tab, btn1, btn2, btn3, btn4, btn5, btn6, sort_menu, btn7, btn
     elif 'columns-veiw' in changed_id:
         last_round_view_change()
     elif (username == 'admin') and ('update-table-button' in changed_id):
-        users_contests_info = codeforces_client.get_users_contests(db_client.students)
-        db_client.update_users_contests(users_contests_info)
+        students = db_client.students if tab == "область" else db_client.cities[tab]
+        users_contests_info = codeforces_client.get_users_contests(students)
+        db_client.update_users_contests(users_contests_info, tab)
     elif (username == 'admin') and ('to-next-grade-button' in changed_id):
         db_client.to_next_grade()
     elif (username == 'admin') and ('to-prev-grade-button' in changed_id):

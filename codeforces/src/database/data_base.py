@@ -7,7 +7,7 @@ from codeforces.src.database.data_classes import Student, StudentFields
 from codeforces.src.database.serializer import Serializer
 from codeforces.src.utils.singleton import Singleton
 from codeforces.src.utils.str_utils import split_fio
-from codeforces.src.utils.utils import validate_arguments
+from codeforces.src.utils.utils import validate_arguments, to_date_str
 
 
 @validate_arguments
@@ -69,16 +69,16 @@ class DbClient(Singleton):
         students = [student for student in self.cities[city_name] if student.nick_name != nick_name]
         self._save_city(city_name, students)
 
-    def update_users_contests(self, users_contests_info):
-        for city_name, students in self.cities.items():
-            for student in students:
-                user_contests_info = users_contests_info[student.nick_name]
-                if user_contests_info:
-                    last_contest = user_contests_info[-1]
-                    student.last_round = last_contest["contestName"]
-                    student.date = last_contest["ratingUpdateTimeSeconds"]
-                    student.rating = last_contest["newRating"]
-            self._save_city(city_name, students)  # Student's objects are references here --- not necessary to save them
+    def update_users_contests(self, users_contests_info, city_name):
+        for student in self.cities[city_name]:
+            user_contests_info = users_contests_info[student.nick_name]
+            if user_contests_info:
+                last_contest = user_contests_info[-1]
+                student.last_round = last_contest["contestName"]
+                student.date = to_date_str(last_contest["ratingUpdateTimeSeconds"])
+                student.rating = last_contest["newRating"]
+        self._save_city(city_name, self.cities[city_name])  # Student's objects are references here --- not necessary
+        # to save them in memory, though we need to save them in DataBase
 
     def _update_grade(self, number):
         for city_name, students in self.cities.items():
