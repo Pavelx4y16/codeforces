@@ -19,6 +19,8 @@ COPY start.sh ${SERVICE_HOME}
 COPY requirements/common.txt ${SERVICE_HOME}/requirements.txt
 COPY getpass.txt ${SERVICE_HOME}/getpass.txt
 
+RUN mkdir ./logs
+
 RUN pip3 install -r ${SERVICE_HOME}/requirements.txt
 RUN chmod +x ${SERVICE_HOME}/start.sh
 
