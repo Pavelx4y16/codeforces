@@ -2,7 +2,7 @@ from enum import unique, IntEnum, auto, Enum
 
 from dash import html
 
-from codeforces.src.utils.utils import validate_arguments
+from codeforces.src.utils.utils import validate_arguments, to_date_str
 
 
 @unique
@@ -86,7 +86,7 @@ class Student:
         if self.view_school_attributes:
             attributes += [self.grade, self.school_name]
         if self.view_last_round_attributes:
-            attributes += [self.last_round, self.date]
+            attributes += [self.last_round, to_date_str(self.date)]
 
         return attributes
 

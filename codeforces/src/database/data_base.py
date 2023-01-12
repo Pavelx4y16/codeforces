@@ -69,16 +69,15 @@ class DbClient(Singleton):
         students = [student for student in self.cities[city_name] if student.nick_name != nick_name]
         self._save_city(city_name, students)
 
-    def update_users_contests(self, users_contests_info, city_name):
-        for student in self.cities[city_name]:
+    def update_users_contests(self, users_contests_info, students: List[Student]):
+        for student in students:
             user_contests_info = users_contests_info[student.nick_name]
             if user_contests_info:
                 last_contest = user_contests_info[-1]
                 student.last_round = last_contest["contestName"]
-                student.date = to_date_str(last_contest["ratingUpdateTimeSeconds"])
+                student.date = last_contest["ratingUpdateTimeSeconds"]
                 student.rating = last_contest["newRating"]
-        self._save_city(city_name, self.cities[city_name])  # Student's objects are references here --- not necessary
-        # to save them in memory, though we need to save them in DataBase
+        self._update_db()
 
     def _update_grade(self, number):
         for city_name, students in self.cities.items():
@@ -100,6 +99,8 @@ class DbClient(Singleton):
     def add_student(self, city_name, nick_name, fio, grade, school_name, user_info):
         if not nick_name:
             raise Exception("fill 'nick_name' field")
+        if not user_info:
+            raise Exception(f"there is no user with such nick_name: {nick_name}")
 
         student_info = [user_info['rating'], user_info.get('city') or city_name.capitalize()]
 

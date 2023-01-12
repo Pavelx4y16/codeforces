@@ -1,17 +1,21 @@
+from unittest.mock import Mock
+
 import pytest
 
 
 def test_get_method(codeforces_client):
 
-    urls = ["user.rating?handle=Pavelx4y16",
-            "user.info?handles=Pavelx4y16"]
+    urls = ["api/user.rating?handle=Pavelx4y16",
+            "api/user.info?handles=Pavelx4y16"]
     data = [codeforces_client._get(url) for url in urls]
 
     assert len(data) == 2
 
 
 def test_get_contests(codeforces_client):
-    data = codeforces_client.get_user_contests("Pavelx4y16")
+    student = Mock()
+    student.nick_name = "Pavelx4y16"
+    data = codeforces_client.get_user_contests(student)
 
     assert len(data) == 5
 

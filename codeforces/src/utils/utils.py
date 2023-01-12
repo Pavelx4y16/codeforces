@@ -1,5 +1,4 @@
-import time
-
+from datetime import datetime
 
 DEFAULTS = {'int': 0, 'str': "UNKNOWN"}
 
@@ -26,9 +25,9 @@ def to_str(string: str) -> str:
     return string or DEFAULTS['str']
 
 
-def to_date_str(date: str) -> str:
-    date = to_int(date)
-    return time.strftime("%d.%m.%Y", time.gmtime(date)) if date else DEFAULTS['str']
+def to_date_str(timestamp: str) -> str:
+    timestamp = to_int(timestamp)
+    return datetime.fromtimestamp(timestamp).strftime("%d.%m.%Y") if timestamp else DEFAULTS['str']
 
 
 def isfloat(string: str) -> bool:
@@ -38,3 +37,4 @@ def isfloat(string: str) -> bool:
         return False
 
     return True
+

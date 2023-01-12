@@ -23,7 +23,7 @@ class Serializer:
         student_info[StudentFields.GRADE] = to_int(student_info[StudentFields.GRADE])
         student_info[StudentFields.SCHOOL_NAME] = to_str(student_info[StudentFields.SCHOOL_NAME])
         student_info[StudentFields.LAST_ROUND] = to_str(student_info[StudentFields.LAST_ROUND])
-        student_info[StudentFields.DATE] = to_date_str(student_info[StudentFields.DATE])
+        student_info[StudentFields.DATE] = to_str(student_info[StudentFields.DATE])
 
         return Student(*tuple(student_info))
 
