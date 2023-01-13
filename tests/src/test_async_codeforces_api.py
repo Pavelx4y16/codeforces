@@ -8,6 +8,9 @@ from codeforces.src.codeforces_api.api import AsyncCodeForcesApi
 from codeforces.src.database.data_base import DbClient
 
 
+pytestmark = pytest.mark.skip("Not using ASYN for now...")
+
+
 @pytest.fixture
 def async_codeforces_client():
     return AsyncCodeForcesApi()

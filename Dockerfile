@@ -16,7 +16,7 @@ RUN pip install --upgrade pip
 
 RUN mkdir logs
 
-COPY codeforces ./codeforces
+COPY codeforces codeforces
 COPY main.py .
 COPY settings.py .
 COPY start.sh .

@@ -30,9 +30,9 @@ def test_get_user_info(codeforces_client):
 @pytest.mark.skip(reason="this test takes to long time")
 def test_get_users_info(codeforces_client, db_client):
     students = db_client.students
-    users_info = list(codeforces_client.get_users_info(students))
+    total = len({student.nick_name for student in students})
+    users_info = codeforces_client.get_users_info(students).values()
 
-    total = len(students)
     assert len(users_info) == total
 
     failed = len([user_info for user_info in users_info if user_info is None])
@@ -42,9 +42,9 @@ def test_get_users_info(codeforces_client, db_client):
 @pytest.mark.skip(reason="this test takes to long time")
 def test_get_users_contests(codeforces_client, db_client):
     students = db_client.students
-    users_contests = list(codeforces_client.get_users_contests(students))
+    total = len({student.nick_name for student in students})
+    users_contests = codeforces_client.get_users_contests(students).values()
 
-    total = len(students)
     assert len(users_contests) == total
 
     failed = len([user_info for user_info in users_contests if user_info is None])

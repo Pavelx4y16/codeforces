@@ -57,7 +57,7 @@ class CodeForcesApi:
         if response.status_code == 200 and response.url != self.home_url:
             return response.url.split('/')[-1]
 
-    def get_user_contests(self, student: Student):
+    def get_user_contests(self, student: Student) -> dict:
         response = self._get(f"api/user.rating?handle={student.nick_name}")
         if response.status_code != 200 and "handle:" in response.reason:
             updated_nick_name = self.update_nick_name(student.nick_name)
@@ -76,7 +76,7 @@ class CodeForcesApi:
 
         return users_contests
 
-    def get_user_info(self, nick_names: str):
+    def get_user_info(self, nick_names: str) -> dict:
         users_info = self._get(f"api/user.info?handles={nick_names}")
         if users_info.status_code == 200:
             return users_info.result[0]
