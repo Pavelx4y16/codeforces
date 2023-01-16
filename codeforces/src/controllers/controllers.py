@@ -4,6 +4,7 @@ from dash import ctx
 import settings
 from codeforces.src.codeforces_api.api import CodeForcesApi
 from codeforces.src.database.data_base import DbClient
+from codeforces.src.database.data_classes import Student
 from codeforces.src.utils.dash_utils import show_panel, hide_panel, ComponentIds
 from codeforces.src.views.city_table import create_students_table
 
@@ -46,19 +47,19 @@ def register_callbacks(app):
             if trigger_id is ComponentIds.ADD_STUDENT_BUTTON:
                 add_student(tab_name, sort_kind, nick_name, fio, grade, school_name)
             elif trigger_id is ComponentIds.REMOVE_STUDENT_BUTTON:
-                pass
+                remove_student(tab_name, remove_nick_name)
             elif trigger_id is ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON:
-                pass
+                change_school_view()
             elif trigger_id is ComponentIds.VIEW_LAST_ROUND_ATTRIBUTES_BUTTON:
-                pass
+                change_last_round_view()
             elif trigger_id is ComponentIds.UPDATE_CONTESTS_BUTTON:
-                pass
+                update_contests(tab_name)
             elif trigger_id is ComponentIds.GRADES_UP_BUTTON:
-                pass
+                to_next_grade()
             elif trigger_id is ComponentIds.GRADES_DOWN_BUTTON:
-                pass
+                to_previous_grade()
             elif trigger_id is ComponentIds.REMOVE_GRADUATED_BUTTON:
-                pass
+                remove_graduated_students()
 
         return create_students_table(db_client=db_client, current_tab=tab_name, sort_kind=sort_kind)
 
@@ -68,4 +69,34 @@ def add_student(tab_name, sort_kind, nick_name, fio, grade, school_name):
     db_client.add_student(tab_name, nick_name, fio, grade, school_name, user_info)
 
     return create_students_table(db_client=db_client, current_tab=tab_name, sort_kind=sort_kind)
+
+
+def remove_student(tab_name, nick_name):
+    db_client.remove_student(tab_name, nick_name)
+
+
+def change_school_view():
+    Student.view_school_attributes = not Student.view_school_attributes
+
+
+def change_last_round_view():
+    Student.view_last_round_attributes = not Student.view_last_round_attributes
+
+
+def update_contests(tab_name):
+    students = db_client.students if tab_name == "область" else db_client.cities[tab_name]
+    users_contests_info = codeforces_client.get_users_contests(students)
+    db_client.update_users_contests(users_contests_info, students)
+
+
+def to_next_grade():
+    db_client.to_next_grade()
+
+
+def to_previous_grade():
+    db_client.to_prev_grade()
+
+
+def remove_graduated_students():
+    db_client.remove_graduated_students()
 

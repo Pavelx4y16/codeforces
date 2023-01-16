@@ -13,7 +13,7 @@ layout = html.Div(children=[
             dcc.Tab(label='Гомельская область', value='область', className="tabStyle")
         ], parent_className="tabzStyle", className="tabzConteiner")),
     html.Div(children=[
-        html.Div(children=[html.Button('Изменить кол-во выводимых столбцов',
+        html.Div(children=[html.Button('Показать последние раунды',
                                        id=ComponentIds.VIEW_LAST_ROUND_ATTRIBUTES_BUTTON.value,
                                        n_clicks=0, className='SbuttonStyle')
         ], className='insider'),
@@ -30,7 +30,7 @@ layout = html.Div(children=[
             )
         ]),
         html.Div(children=[
-            html.Button('Изменить вывод учебных заведений', id=ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON.value, n_clicks=0, className='SbuttonStyle')
+            html.Button('Показать учебные заведения', id=ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON.value, n_clicks=0, className='SbuttonStyle')
         ], className='insider'),
         html.Div(children=[
             html.Div(dcc.Input(id=ComponentIds.PASSWORD_INPUT.value, type='text', placeholder="Ключ(для админа)".format('text')),

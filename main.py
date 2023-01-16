@@ -17,52 +17,6 @@ app.layout = layout
 register_callbacks(app)
 
 
-def last_round_view_change():
-    Student.view_last_round_attributes = not Student.view_last_round_attributes
-
-
-def school_view_change():
-    Student.view_school_attributes = not Student.view_school_attributes
-
-
-# def create_table(current_tab, sort_menu):
-#     if current_tab == "область":
-#         students = db_client.students
-#         Student.view_city_name = True
-#     else:
-#         Student.view_city_name = False
-#         students = db_client.cities[current_tab.lower()]
-#
-#     reverse = sort_menu != SortFields.FIO.value
-#     students.sort(key=Student.sort_map[SortFields(sort_menu)], reverse=reverse)
-#
-#     return html.Table([
-#                 html.Thead(
-#                     html.Tr([html.Th(header) for header in Student.display_headers()])
-#                 ),
-#                 html.Tbody([
-#                     html.Tr([html.Td(attr) for attr in student.display()]) for student in students
-#                 ])
-#     ], className="tableStyle")
-
-
-'''
-def create_backup():
-    cities = ['гомель.csv', 'мозырь.csv', 'светлогорск.csv']
-    cities_backup = ['гомель_backup.csv', 'мозырь_backup.csv', 'светлогорск_backup.csv']
-    for i in range(3):
-        cdf = pd.read_csv(cities[i])
-        cdf.to_csv(cities_backup[i])
-
-def goto_backup():
-    cities = ['гомель.csv', 'мозырь.csv', 'светлогорск.csv']
-    cities_backup = ['гомель_backup.csv', 'мозырь_backup.csv', 'светлогорск_backup.csv']
-    for i in range(3):
-        cdf = pd.read_csv(cities_backup[i])
-        cdf.to_csv(cities[i])
-'''
-
-
 # @app.callback(Output('cities-tabs-content', 'children'),
 #               [Input('cities-tabs', 'value'),
 #                Input('add-student-button', 'n_clicks'),
@@ -105,78 +59,6 @@ def goto_backup():
 #         db_client.remove_graduated_students()
 #     table = create_table(tab, sort_menu)
 #     return table
-
-
-# @app.callback(Output('admin-panel', 'children'),
-#               [Input('admin-button', 'n_clicks')],
-#               [State('admin-input', 'value')])
-# def show_admin_panel(button, val):
-#     changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
-#     keyword = open('getpass.txt').read()
-#     if ('admin-button' in changed_id) and (val == keyword):
-#         global username
-#         if username == 'user':
-#             username = 'admin'
-#             return [html.Div(children=[
-#                 html.Div(dcc.Input(id='nickname', type='text', placeholder="Ник".format('text')),
-#                          className="ninputStyle"),
-#                 html.Div(dcc.Input(id='add-fio', type='text', placeholder="Фамилия и имя".format('text')),
-#                          className="inputStyle"),
-#                 html.Div(
-#                     dcc.Input(id='grade', type='text', placeholder="Класс".format('text'), className="ninputStyle")),
-#                 html.Div(dcc.Input(id='educ', type='text', placeholder="Учебное заведение".format('text')),
-#                          className="inputStyle"),
-#                 html.Button('Добавить учащегося', id='add-student-button', n_clicks=0, className='buttonStyle')
-#             ], className='insider'),
-#                 html.Div(children=[
-#                     html.Div(dcc.Input(id='remove-nickname', type='text', placeholder="Никнейм".format('text')),
-#                              className="inputStyle"),
-#                     html.Button('Удалить учащегося', id='remove-student-button', n_clicks=0, className='buttonStyle')
-#                 ], className='insider'),
-#                 html.Div(children=[
-#                     html.Button('Обновить раунды', id='update-table-button', n_clicks=0, className='buttonStyle'),
-#                     html.Div(id='container-button-timestamp')
-#                 ]),
-#                 html.Div(children=[
-#                     html.Button('+ класс', id='to-next-grade-button', n_clicks=0, className='SbuttonStyle')
-#                 ]),
-#                 html.Div(children=[
-#                     html.Button('- класс', id='to-prev-grade-button', n_clicks=0, className='SbuttonStyle')
-#                 ]),
-#                 html.Div(children=[
-#                     html.Button('Удалить выпускников', id='remove-students-button', n_clicks=0,
-#                                 className='SbuttonStyle')
-#                 ])
-#             ]
-#         username = 'user'
-#     return [html.Div(children=[
-#         html.Div(dcc.Input(id='nickname', type='text', placeholder="Ник".format('text')), className="ninputStyle"),
-#         html.Div(dcc.Input(id='add-fio', type='text', placeholder="Фамилия и имя".format('text')),
-#                  className="inputStyle"),
-#         html.Div(dcc.Input(id='grade', type='text', placeholder="Класс".format('text'), className="ninputStyle")),
-#         html.Div(dcc.Input(id='educ', type='text', placeholder="Учебное заведение".format('text')),
-#                  className="inputStyle"),
-#         html.Button('Добавить учащегося', id='add-student-button', n_clicks=0, className='buttonStyle')
-#     ], className='insider', style={'display': 'none'}),
-#         html.Div(children=[
-#             html.Div(dcc.Input(id='remove-nickname', type='text', placeholder="Никнейм".format('text')),
-#                      className="inputStyle"),
-#             html.Button('Удалить учащегося', id='remove-student-button', n_clicks=0, className='buttonStyle')
-#         ], className='insider', style={'display': 'none'}),
-#         html.Div(children=[
-#             html.Button('Обновить раунды', id='update-table-button', n_clicks=0, className='buttonStyle'),
-#             html.Div(id='container-button-timestamp')
-#         ], style={'display': 'none'}),
-#         html.Div(children=[
-#             html.Button('+ класс', id='to-next-grade-button', n_clicks=0, className='SbuttonStyle')
-#         ], style={'display': 'none'}),
-#         html.Div(children=[
-#             html.Button('- класс', id='to-prev-grade-button', n_clicks=0, className='SbuttonStyle')
-#         ], style={'display': 'none'}),
-#         html.Div(children=[
-#             html.Button('Удалить выпускников', id='remove-students-button', n_clicks=0, className='SbuttonStyle')
-#         ], style={'display': 'none'})
-#     ]
 
 
 if __name__ == '__main__':
