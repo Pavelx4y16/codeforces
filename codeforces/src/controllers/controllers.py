@@ -30,6 +30,16 @@ def register_callbacks(app):
 
         return style, style
 
+    @app.callback(Output(component_id=ComponentIds.ADD_STUDENT_BUTTON.value, component_property='disabled'),
+                  [Input(component_id=ComponentIds.NICK_INPUT.value, component_property='value')])
+    def show_add_button(nick_name):
+        return not nick_name
+
+    @app.callback(Output(component_id=ComponentIds.REMOVE_STUDENT_BUTTON.value, component_property='disabled'),
+                  [Input(component_id=ComponentIds.REMOVE_NICK_INPUT.value, component_property='value')])
+    def show_add_button(nick_name):
+        return not nick_name
+
     @app.callback(Output(ComponentIds.TAB_CONTENT.value, 'children'),
                   [Input(ComponentIds.TABS.value, 'value'),
                    Input(ComponentIds.ADD_STUDENT_BUTTON.value, 'n_clicks'),
