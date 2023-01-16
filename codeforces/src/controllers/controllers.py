@@ -21,6 +21,15 @@ def register_callbacks(app):
             return show_panel()
         return hide_panel()
 
+    @app.callback(Output(component_id=ComponentIds.ADD_STUDENT_PANEL.value, component_property='style'),
+                  Output(component_id=ComponentIds.REMOVE_STUDENT_PANEL.value, component_property='style'),
+                  [Input(ComponentIds.TABS.value, 'value')],
+                  prevent_initial_call=True)
+    def show_city_dependend_functionality(tab_name):
+        style = hide_panel() if tab_name == "область" else show_panel()
+
+        return style, style
+
     @app.callback(Output(ComponentIds.TAB_CONTENT.value, 'children'),
                   [Input(ComponentIds.TABS.value, 'value'),
                    Input(ComponentIds.ADD_STUDENT_BUTTON.value, 'n_clicks'),
@@ -101,4 +110,5 @@ def remove_graduated_students(tab_name):
     if tab_name == "область":
         tab_name = None
     db_client.remove_graduated_students(tab_name)
+
 
