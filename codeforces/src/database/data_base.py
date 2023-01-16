@@ -99,7 +99,7 @@ class DbClient(Singleton):
         if not user_info:
             raise Exception(f"there is no user with such nick_name: {nick_name}")
 
-        student_info = [user_info['rating'], user_info.get('city') or city_name.capitalize()]
+        student_info = [user_info.get('rating'), user_info.get('city') or city_name.capitalize()]
 
         last_name, first_name = split_fio(fio)
         student_info += [last_name or user_info.get('lastName'), first_name or user_info.get('firstName'),
