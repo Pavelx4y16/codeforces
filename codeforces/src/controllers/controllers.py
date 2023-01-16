@@ -59,7 +59,7 @@ def register_callbacks(app):
             elif trigger_id is ComponentIds.GRADES_DOWN_BUTTON:
                 to_previous_grade()
             elif trigger_id is ComponentIds.REMOVE_GRADUATED_BUTTON:
-                remove_graduated_students()
+                remove_graduated_students(tab_name)
 
         return create_students_table(db_client=db_client, current_tab=tab_name, sort_kind=sort_kind)
 
@@ -97,6 +97,8 @@ def to_previous_grade():
     db_client.to_prev_grade()
 
 
-def remove_graduated_students():
-    db_client.remove_graduated_students()
+def remove_graduated_students(tab_name):
+    if tab_name == "область":
+        tab_name = None
+    db_client.remove_graduated_students(tab_name)
 

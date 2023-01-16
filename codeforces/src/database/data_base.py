@@ -83,9 +83,15 @@ class DbClient(Singleton):
     def to_prev_grade(self):
         self._update_grade(-1)
 
-    def remove_graduated_students(self):
+    def _filter_out_graduated_students(self, students: List[Student]) -> List[Student]:
+        return [student for student in students if student.grade <= 11]
+
+    def remove_graduated_students(self, city_name=None):
+        if city_name:
+            return self._save_city(city_name, self._filter_out_graduated_students(self.cities[city_name]))
+
         for city_name, students in self.cities.items():
-            self._save_city(city_name, [student for student in students if student.grade <= 11])
+            self._save_city(city_name, self._filter_out_graduated_students(students))
 
     def add_student(self, city_name, nick_name, fio, grade, school_name, user_info):
         if not nick_name:
