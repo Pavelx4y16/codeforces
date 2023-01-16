@@ -20,15 +20,6 @@ class DbClient(Singleton):
         self.url = url
         self.cities = self._load_cities()
 
-    def __enter__(self):
-        self.cities = self._load_cities()
-
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        # self._update_db()
-        pass
-
     @property
     def city_names(self):
         return self.cities.keys()
