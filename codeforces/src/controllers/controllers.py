@@ -21,6 +21,15 @@ def register_callbacks(app):
             return show_panel()
         return hide_panel()
 
+    @app.callback(Output(component_id=ComponentIds.ADD_STUDENT_PANEL.value, component_property='style'),
+                  Output(component_id=ComponentIds.REMOVE_STUDENT_PANEL.value, component_property='style'),
+                  [Input(ComponentIds.TABS.value, 'value')],
+                  prevent_initial_call=True)
+    def show_city_dependend_functionality(tab_name):
+        style = hide_panel() if tab_name == "область" else show_panel()
+
+        return style, style
+
     @app.callback(Output(ComponentIds.TAB_CONTENT.value, 'children'),
                   [Input(ComponentIds.TABS.value, 'value'),
                    Input(ComponentIds.ADD_STUDENT_BUTTON.value, 'n_clicks'),
@@ -59,7 +68,7 @@ def register_callbacks(app):
             elif trigger_id is ComponentIds.GRADES_DOWN_BUTTON:
                 to_previous_grade()
             elif trigger_id is ComponentIds.REMOVE_GRADUATED_BUTTON:
-                remove_graduated_students()
+                remove_graduated_students(tab_name)
 
         return create_students_table(db_client=db_client, current_tab=tab_name, sort_kind=sort_kind)
 
@@ -97,6 +106,9 @@ def to_previous_grade():
     db_client.to_prev_grade()
 
 
-def remove_graduated_students():
-    db_client.remove_graduated_students()
+def remove_graduated_students(tab_name):
+    if tab_name == "область":
+        tab_name = None
+    db_client.remove_graduated_students(tab_name)
+
 

@@ -14,7 +14,7 @@ def create_add_student_panel():
                                        className="inputStyle"),
                               html.Button('Добавить учащегося', id=ComponentIds.ADD_STUDENT_BUTTON.value, className='buttonStyle')
                               ],
-                    className='insider')
+                    className='insider', id=ComponentIds.ADD_STUDENT_PANEL.value)
 
 
 def create_remove_student_panel():
@@ -22,7 +22,7 @@ def create_remove_student_panel():
                 html.Div(dcc.Input(id=ComponentIds.REMOVE_NICK_INPUT.value, type='text', placeholder="Никнейм".format('text')),
                          className="inputStyle"),
                 html.Button('Удалить учащегося', id=ComponentIds.REMOVE_STUDENT_BUTTON.value, className='buttonStyle')
-            ], className='insider')
+            ], className='insider', id=ComponentIds.REMOVE_STUDENT_PANEL.value)
 
 
 def create_update_contests_panel():

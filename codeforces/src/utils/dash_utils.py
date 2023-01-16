@@ -6,7 +6,7 @@ def hide_panel():
 
 
 def show_panel():
-    return {'display': 'block'}
+    return None
 
 
 class ComponentIds(Enum):
@@ -14,7 +14,9 @@ class ComponentIds(Enum):
     TABS = "cities_tabs"
     TAB_CONTENT = "tab_content"
     ADD_STUDENT_BUTTON = "add_student"
+    ADD_STUDENT_PANEL = "add_student_panel"
     REMOVE_STUDENT_BUTTON = "remove_student"
+    REMOVE_STUDENT_PANEL = "remove_student_panel"
     VIEW_SCHOOL_ATTRIBUTES_BUTTON = "view_school_attributes"
     VIEW_LAST_ROUND_ATTRIBUTES_BUTTON = "view_last_round_attributes"
     UPDATE_CONTESTS_BUTTON = "update_student_contests"
