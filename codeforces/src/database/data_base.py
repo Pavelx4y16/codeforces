@@ -94,6 +94,7 @@ class DbClient(Singleton):
             self._save_city(city_name, self._filter_out_graduated_students(students))
 
     def add_student(self, city_name, nick_name, fio, grade, school_name, user_info):
+        # this 'if' statement could be removed, because corresponding button is disabled if empty 'nick_name'
         if not nick_name:
             raise Exception("fill 'nick_name' field")
         if not user_info:
@@ -107,9 +108,3 @@ class DbClient(Singleton):
 
         new_student = Serializer.deserialize_one(student_info)
         self._save_city(city_name, self.cities[city_name] + [new_student])
-
-#
-# if __name__ == '__main__':
-#     db_client = DbClient(settings.cities_path)
-#     for name in db_client.city_names:
-#         print(name)
