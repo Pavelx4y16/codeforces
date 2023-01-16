@@ -1,5 +1,3 @@
-from typing import List
-
 from dash import html
 
 from codeforces.src.database.data_base import DbClient

@@ -15,7 +15,7 @@ layout = html.Div(children=[
     html.Div(children=[
         html.Div(children=[html.Button('Показать последние раунды',
                                        id=ComponentIds.VIEW_LAST_ROUND_ATTRIBUTES_BUTTON.value,
-                                       n_clicks=0, className='SbuttonStyle')
+                                       className='SbuttonStyle')
         ], className='insider'),
         html.Div(children=[
             dcc.RadioItems(
@@ -30,12 +30,12 @@ layout = html.Div(children=[
             )
         ]),
         html.Div(children=[
-            html.Button('Показать учебные заведения', id=ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON.value, n_clicks=0, className='SbuttonStyle')
+            html.Button('Показать учебные заведения', id=ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON.value, className='SbuttonStyle')
         ], className='insider'),
         html.Div(children=[
             html.Div(dcc.Input(id=ComponentIds.PASSWORD_INPUT.value, type='text', placeholder="Ключ(для админа)".format('text')),
                      className="inputStyle"),
-            html.Button('Ввод', id=ComponentIds.PASSWORD_BUTTON.value, n_clicks=0, className='buttonStyle')
+            html.Button('Ввод', id=ComponentIds.PASSWORD_BUTTON.value, className='buttonStyle')
         ], className='insider')
     ], className='style1'),
     create_admin_panel(visible=False),

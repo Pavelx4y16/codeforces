@@ -1,6 +1,5 @@
 from dash import html, dcc
 
-# todo: remove n_clicks parameter
 from codeforces.src.utils.dash_utils import show_panel, hide_panel, ComponentIds
 
 
@@ -13,7 +12,7 @@ def create_add_student_panel():
                                                  className="ninputStyle")),
                               html.Div(dcc.Input(id=ComponentIds.SCHOOL_INPUT.value, type='text', placeholder="Учебное заведение".format('text')),
                                        className="inputStyle"),
-                              html.Button('Добавить учащегося', id=ComponentIds.ADD_STUDENT_BUTTON.value, n_clicks=0, className='buttonStyle')
+                              html.Button('Добавить учащегося', id=ComponentIds.ADD_STUDENT_BUTTON.value, className='buttonStyle')
                               ],
                     className='insider')
 
@@ -22,24 +21,24 @@ def create_remove_student_panel():
     return html.Div(children=[
                 html.Div(dcc.Input(id=ComponentIds.REMOVE_NICK_INPUT.value, type='text', placeholder="Никнейм".format('text')),
                          className="inputStyle"),
-                html.Button('Удалить учащегося', id=ComponentIds.REMOVE_STUDENT_BUTTON.value, n_clicks=0, className='buttonStyle')
+                html.Button('Удалить учащегося', id=ComponentIds.REMOVE_STUDENT_BUTTON.value, className='buttonStyle')
             ], className='insider')
 
 
 def create_update_contests_panel():
     return html.Div(children=[
-                html.Button('Обновить раунды', id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, n_clicks=0, className='buttonStyle'),
+                html.Button('Обновить раунды', id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, className='buttonStyle'),
                 html.Div(id='container-button-timestamp')
             ])
 
 
 def create_update_grades_panel(id_, display_value):
-    return html.Div(children=[html.Button(display_value, id=id_, n_clicks=0, className='SbuttonStyle')])
+    return html.Div(children=[html.Button(display_value, id=id_, className='SbuttonStyle')])
 
 
 def create_remove_graduated_students_panel():
     return html.Div(children=[html.Button('Удалить выпускников', id=ComponentIds.REMOVE_GRADUATED_BUTTON.value,
-                                          n_clicks=0, className='SbuttonStyle')])
+                                          className='SbuttonStyle')])
 
 
 def create_admin_panel(visible=True):
