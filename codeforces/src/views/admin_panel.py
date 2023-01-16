@@ -4,13 +4,15 @@ from codeforces.src.utils.dash_utils import show_panel, hide_panel, ComponentIds
 
 
 def create_add_student_panel():
-    return html.Div(children=[html.Div(dcc.Input(id=ComponentIds.NICK_INPUT.value, type='text', placeholder="Ник".format('text')),
+    return html.Div(children=[html.Div(dcc.Input(id=ComponentIds.NICK_INPUT.value, type='text', placeholder="Ник"),
                                        className="ninputStyle"),
-                              html.Div(dcc.Input(id=ComponentIds.FIO_INPUT.value, type='text', placeholder="Фамилия и имя".format('text')),
+                              html.Div(dcc.Input(id=ComponentIds.FIO_INPUT.value, type='text', placeholder="Фамилия и имя"),
                                        className="inputStyle"),
-                              html.Div(dcc.Input(id=ComponentIds.GRADE_INPUT.value, type='text', placeholder="Класс".format('text'),
+                              html.Div(dcc.Input(id=ComponentIds.GRADE_INPUT.value,
+                                                 type='number', min=0, max=11,
+                                                 placeholder="Класс (целое число)",
                                                  className="ninputStyle")),
-                              html.Div(dcc.Input(id=ComponentIds.SCHOOL_INPUT.value, type='text', placeholder="Учебное заведение".format('text')),
+                              html.Div(dcc.Input(id=ComponentIds.SCHOOL_INPUT.value, type='text', placeholder="Учебное заведение"),
                                        className="inputStyle"),
                               html.Button('Добавить учащегося', id=ComponentIds.ADD_STUDENT_BUTTON.value, className='buttonStyle')
                               ],
