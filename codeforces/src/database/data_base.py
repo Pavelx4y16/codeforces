@@ -7,7 +7,7 @@ from codeforces.src.database.data_classes import Student, StudentFields
 from codeforces.src.database.serializer import Serializer
 from codeforces.src.utils.singleton import Singleton
 from codeforces.src.utils.str_utils import split_fio
-from codeforces.src.utils.utils import validate_arguments
+from codeforces.src.utils.utils import validate_arguments, to_str
 
 
 @validate_arguments
@@ -66,7 +66,7 @@ class DbClient(Singleton):
             if user_contests_info:
                 last_contest = user_contests_info[-1]
                 student.last_round = last_contest["contestName"]
-                student.date = last_contest["ratingUpdateTimeSeconds"]
+                student.date = to_str(last_contest["ratingUpdateTimeSeconds"])
                 student.rating = last_contest["newRating"]
         self._update_db()
 

@@ -37,7 +37,7 @@ def register_callbacks(app):
 
     @app.callback(Output(component_id=ComponentIds.REMOVE_STUDENT_BUTTON.value, component_property='disabled'),
                   [Input(component_id=ComponentIds.REMOVE_NICK_INPUT.value, component_property='value')])
-    def show_add_button(nick_name):
+    def show_remove_button(nick_name):
         return not nick_name
 
     @app.callback(Output(ComponentIds.TAB_CONTENT.value, 'children'),
@@ -64,7 +64,7 @@ def register_callbacks(app):
         if ctx.triggered_id:
             trigger_id = ComponentIds(ctx.triggered_id)
             if trigger_id is ComponentIds.ADD_STUDENT_BUTTON:
-                add_student(tab_name, sort_kind, nick_name, fio, grade, school_name)
+                add_student(tab_name, nick_name, fio, grade, school_name)
             elif trigger_id is ComponentIds.REMOVE_STUDENT_BUTTON:
                 remove_student(tab_name, remove_nick_name)
             elif trigger_id is ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON:
@@ -83,11 +83,9 @@ def register_callbacks(app):
         return create_students_table(db_client=db_client, current_tab=tab_name, sort_kind=sort_kind)
 
 
-def add_student(tab_name, sort_kind, nick_name, fio, grade, school_name):
+def add_student(tab_name, nick_name, fio, grade, school_name):
     user_info = codeforces_client.get_user_info(nick_name)
     db_client.add_student(tab_name, nick_name, fio, grade, school_name, user_info)
-
-    return create_students_table(db_client=db_client, current_tab=tab_name, sort_kind=sort_kind)
 
 
 def remove_student(tab_name, nick_name):

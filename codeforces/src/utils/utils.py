@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Union
 
 DEFAULTS = {'int': 0, 'str': "UNKNOWN"}
 
@@ -20,9 +21,8 @@ def to_int(string: str) -> int:
     return int(float(string)) if isfloat(string) else DEFAULTS['int']
 
 
-def to_str(string: str) -> str:
-    string = string.strip() if isinstance(string, str) else None
-    return string or DEFAULTS['str']
+def to_str(value: Union[str, int]) -> str:
+    return str(value).strip() or DEFAULTS['str']
 
 
 def to_date_str(timestamp: str) -> str:
