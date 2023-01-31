@@ -23,9 +23,16 @@ click==8.1.3
 colorama==0.4.6
     # via click
 dash==2.7.1
+    # via
+    #   -r requirements/common.in
+    #   dash-bootstrap-components
+    #   dash-daq
+dash-bootstrap-components==1.3.1
     # via -r requirements/common.in
 dash-core-components==2.0.0
     # via dash
+dash-daq==0.5.0
+    # via -r requirements/common.in
 dash-html-components==2.0.0
     # via dash
 dash-table==5.0.0

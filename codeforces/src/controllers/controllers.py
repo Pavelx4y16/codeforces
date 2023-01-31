@@ -13,6 +13,51 @@ codeforces_client = CodeForcesApi()
 
 
 def register_callbacks(app):
+    # attach Progress Bar for 'Update Contests' button
+    codeforces_client.attach(app.layout[ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value])
+
+    @app.callback(Output(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='value'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_INTERVAL.value, component_property='n_intervals'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, component_property='n_clicks'),
+                  prevent_initial_call=True)
+    def update_student_contests_progress_bar(n_intervals, n_clicks):
+        trigger_id = ComponentIds(ctx.triggered_id)
+
+        if trigger_id is ComponentIds.UPDATE_CONTESTS_BUTTON:
+            return 0
+
+        value = app.layout[ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value].value
+
+        return value
+
+    @app.callback(Output(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='displayed'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='value'),
+                  State(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='max'),
+                  prevent_initial_call=True)
+    def raise_update_student_contests_dialog(progress_bar_value, progress_bar_max_value):
+        return progress_bar_value == progress_bar_max_value
+
+    @app.callback(Output(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='style'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, component_property='n_clicks'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='submit_n_clicks'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='cancel_n_clicks'),
+                  prevent_initial_call=True)
+    def enable_update_student_contests_progress_bar(*args, **kwargs):
+        trigger_id = ComponentIds(ctx.triggered_id)
+        if trigger_id is ComponentIds.UPDATE_CONTESTS_BUTTON:
+            return show_panel()
+        return hide_panel()
+
+    @app.callback(Output(component_id=ComponentIds.UPDATE_CONTESTS_INTERVAL.value, component_property='disabled'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, component_property='n_clicks'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='submit_n_clicks'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='cancel_n_clicks'),
+                  prevent_initial_call=True)
+    def enable_update_contests_interval(*args, **kwargs):
+        trigger_id = ComponentIds(ctx.triggered_id)
+
+        return trigger_id is not ComponentIds.UPDATE_CONTESTS_BUTTON
+
     @app.callback(Output(component_id=ComponentIds.ADMIN_PANEL.value, component_property='style'),
                   [Input(ComponentIds.PASSWORD_BUTTON.value, 'n_clicks')], [State(ComponentIds.PASSWORD_INPUT.value, 'value')],
                   prevent_initial_call=True)

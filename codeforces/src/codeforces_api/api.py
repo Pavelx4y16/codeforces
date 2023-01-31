@@ -9,6 +9,8 @@ from codeforces.src.database.data_classes import Student
 from codeforces.src.utils.aiohttp_utils import with_session
 from codeforces.src.utils.codeforces_utils import ParsedResponse
 from codeforces.src.utils.logger import Logger
+from codeforces.src.utils.observer import ObserverSubject
+from codeforces.src.utils.utils import Delays
 
 logger = Logger(__name__)
 
@@ -36,13 +38,15 @@ class AsyncCodeForcesApi:
         return await asyncio.gather(*coroutines)
 
 
-class CodeForcesApi:
+class CodeForcesApi(ObserverSubject):
     def __init__(self, home_url="https://codeforces.com/", lang="ru"):
+        super().__init__()
+
         self.home_url = "https://codeforces.com/"
         self.base_params = {'lang': lang}
 
     def _get(self, url: str) -> ParsedResponse:
-        time.sleep(2)
+        time.sleep(Delays.CODE_FORCES.value)
         response = requests.get(f"{self.home_url}{url}", params=self.base_params)
 
         return ParsedResponse(response)
@@ -70,8 +74,9 @@ class CodeForcesApi:
 
     def get_users_contests(self, students: List[Student]) -> dict:
         users_contests = dict()
-        for student in students:
+        for processed, student in enumerate(students, start=1):
             user_contests = self.get_user_contests(student)
+            self.notify(processed / len(students))
             users_contests[student.nick_name] = user_contests
 
         return users_contests
