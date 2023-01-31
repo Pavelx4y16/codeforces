@@ -1,6 +1,8 @@
 from dash import html, dcc
+from codeforces.src.utils.daq_utils import GraduatedBar
 
 from codeforces.src.utils.dash_utils import show_panel, hide_panel, ComponentIds
+from codeforces.src.utils.utils import Delays
 
 
 def create_add_student_panel():
@@ -30,7 +32,15 @@ def create_remove_student_panel():
 def create_update_contests_panel():
     return html.Div(children=[
                 html.Button('Обновить раунды', id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, className='buttonStyle'),
-                html.Div(id='container-button-timestamp')
+                html.Div(id='container-button-timestamp'),
+                GraduatedBar(id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value,
+                             label="Updating Contests...",
+                             showCurrentValue=True,
+                             min=0, max=100, value=0,
+                             style=hide_panel()),
+                dcc.ConfirmDialog(id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, message="Contests Updated!!!"),
+                dcc.Interval(ComponentIds.UPDATE_CONTESTS_INTERVAL.value,
+                             interval=(Delays.CODE_FORCES.value+1)*1000, disabled=True)
             ])
 
 

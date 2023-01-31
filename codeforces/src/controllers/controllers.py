@@ -13,10 +13,46 @@ codeforces_client = CodeForcesApi()
 
 
 def register_callbacks(app):
-    @app.callback(Output(component_id=ComponentIds.ADMIN_PANEL.value, component_property='style'),
-                  [Input(ComponentIds.PASSWORD_BUTTON.value, 'n_clicks')], [State(ComponentIds.PASSWORD_INPUT.value, 'value')],
+    # attach Progress Bar for 'Update Contests' button
+    codeforces_client.attach(app.layout[ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value])
+
+    @app.callback(Output(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='value'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_INTERVAL.value, component_property='n_intervals'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, component_property='n_clicks'),
                   prevent_initial_call=True)
-    def show_admin_panel(button, password):
+    def work_with_update_student_contests_progress_bar(*args, **kwargs):
+        trigger_id = ComponentIds(ctx.triggered_id)
+
+        if trigger_id is ComponentIds.UPDATE_CONTESTS_BUTTON:
+            return 0
+
+        return app.layout[ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value].value
+
+    @app.callback(Output(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='style'),
+                  Output(component_id=ComponentIds.UPDATE_CONTESTS_INTERVAL.value, component_property='disabled'),
+                  Output(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='displayed'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='value'),
+                  State(component_id=ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR.value, component_property='max'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_BUTTON.value, component_property='n_clicks'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='submit_n_clicks'),
+                  Input(component_id=ComponentIds.UPDATE_CONTESTS_CONFIRM_DIALOG.value, component_property='cancel_n_clicks'),
+                  prevent_initial_call=True)
+    def enable_update_student_contests_progress_bar(progress_bar_value, progress_bar_max_value, *args, **kwargs):
+        trigger_id = ComponentIds(ctx.triggered_id)
+        if trigger_id is ComponentIds.UPDATE_CONTESTS_BUTTON:
+            return show_panel(), False, False
+        elif trigger_id is ComponentIds.UPDATE_CONTESTS_PROGRESS_BAR:
+            work_is_finished = progress_bar_value == progress_bar_max_value
+
+            return show_panel(), work_is_finished, work_is_finished
+
+        return hide_panel(), True, False
+
+    @app.callback(Output(component_id=ComponentIds.ADMIN_PANEL.value, component_property='style'),
+                  State(ComponentIds.PASSWORD_INPUT.value, 'value'),
+                  Input(ComponentIds.PASSWORD_BUTTON.value, 'n_clicks'),
+                  prevent_initial_call=True)
+    def show_admin_panel(password, *args, **kwargs):
         if password == open('getpass.txt').read():
             return show_panel()
         return hide_panel()
@@ -41,26 +77,23 @@ def register_callbacks(app):
         return not nick_name
 
     @app.callback(Output(ComponentIds.TAB_CONTENT.value, 'children'),
-                  [Input(ComponentIds.TABS.value, 'value'),
-                   Input(ComponentIds.ADD_STUDENT_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.REMOVE_STUDENT_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.VIEW_LAST_ROUND_ATTRIBUTES_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.UPDATE_CONTESTS_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.GRADES_UP_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.GRADES_DOWN_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.REMOVE_GRADUATED_BUTTON.value, 'n_clicks'),
-                   Input(ComponentIds.SORT_MENU.value, 'value')],
-                  [State(ComponentIds.NICK_INPUT.value, 'value'),
-                   State(ComponentIds.FIO_INPUT.value, 'value'),
-                   State(ComponentIds.GRADE_INPUT.value, 'value'),
-                   State(ComponentIds.SCHOOL_INPUT.value, 'value'),
-                   State(ComponentIds.REMOVE_NICK_INPUT.value, 'value')])
-    def process_tab_operations(tab_name,
-                               add_student_button, remove_student_button, educ_view_button, columns_view_button,
-                               update_contests_button, grades_up_button, grades_down_button,
-                               remove_graduated_students_button,
-                               sort_kind, nick_name, fio, grade, school_name, remove_nick_name):
+                  Input(ComponentIds.TABS.value, 'value'),
+                  Input(ComponentIds.SORT_MENU.value, 'value'),
+                  State(ComponentIds.NICK_INPUT.value, 'value'),
+                  State(ComponentIds.FIO_INPUT.value, 'value'),
+                  State(ComponentIds.GRADE_INPUT.value, 'value'),
+                  State(ComponentIds.SCHOOL_INPUT.value, 'value'),
+                  State(ComponentIds.REMOVE_NICK_INPUT.value, 'value'),
+                  Input(ComponentIds.ADD_STUDENT_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.REMOVE_STUDENT_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.VIEW_SCHOOL_ATTRIBUTES_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.VIEW_LAST_ROUND_ATTRIBUTES_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.UPDATE_CONTESTS_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.GRADES_UP_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.GRADES_DOWN_BUTTON.value, 'n_clicks'),
+                  Input(ComponentIds.REMOVE_GRADUATED_BUTTON.value, 'n_clicks'))
+    def process_tab_operations(tab_name, sort_kind, nick_name, fio, grade, school_name, remove_nick_name,
+                               *args, **kwargs):
         if ctx.triggered_id:
             trigger_id = ComponentIds(ctx.triggered_id)
             if trigger_id is ComponentIds.ADD_STUDENT_BUTTON:

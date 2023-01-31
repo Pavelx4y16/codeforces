@@ -1,3 +1,4 @@
+import enum
 from datetime import datetime
 from typing import Union
 
@@ -38,3 +39,6 @@ def isfloat(string: str) -> bool:
 
     return True
 
+
+class Delays(enum.Enum):
+    CODE_FORCES = 2
