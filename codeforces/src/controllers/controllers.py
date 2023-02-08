@@ -118,7 +118,10 @@ def register_callbacks(app):
 
 def add_student(tab_name, nick_name, fio, grade, school_name):
     user_info = codeforces_client.get_user_info(nick_name)
-    db_client.add_student(tab_name, nick_name, fio, grade, school_name, user_info)
+    students = [db_client.add_student(tab_name, nick_name, fio, grade, school_name, user_info)]
+
+    users_contests_info = codeforces_client.get_users_contests(students)
+    db_client.update_users_contests(users_contests_info, students)
 
 
 def remove_student(tab_name, nick_name):

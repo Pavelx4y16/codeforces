@@ -108,3 +108,5 @@ class DbClient(Singleton):
 
         new_student = Serializer.deserialize_one(student_info)
         self._save_city(city_name, self.cities[city_name] + [new_student])
+
+        return new_student
