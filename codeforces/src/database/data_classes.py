@@ -36,7 +36,7 @@ class Student:
                 SortFields.DATE: lambda student: student.date}
     HEADERS = ("Рейтинг", "Город", "Фамилия", "Имя", "Никнейм", "Класс", "Учебное заведение", "Последний раунд", "Дата")
     view_school_attributes = True  # make 'grade' and 'school_name' attributes visible
-    view_last_round_attributes = True  # make 'last_round' and 'date' attributes visible
+    view_last_round_attributes = True  # make 'last_round' name visible
     view_city_name = False
 
     def __validate_init_arguments(self, rating, city_name, last_name, first_name, nick_name, grade, school_name, last_round, date):
@@ -78,7 +78,7 @@ class Student:
     def display(self):
         attributes = [self.rating]
         if self.view_city_name:
-            attributes += [self.city_name]
+            attributes.append(self.city_name)
         attributes += [
             html.A(self.last_name, href='https://codeforces.com/profile/' + self.nick_name, style={'color': self.color}),
             html.A(self.first_name, href='https://codeforces.com/profile/' + self.nick_name, style={'color': self.color})
@@ -86,7 +86,8 @@ class Student:
         if self.view_school_attributes:
             attributes += [self.grade, self.school_name]
         if self.view_last_round_attributes:
-            attributes += [self.last_round, to_date_str(self.date)]
+            attributes.append(self.last_round)
+        attributes.append(to_date_str(self.date))
 
         return attributes
 
@@ -94,7 +95,7 @@ class Student:
     def display_headers():
         headers = [Student.HEADERS[StudentFields.RATING]]
         if Student.view_city_name:
-            headers += [Student.HEADERS[StudentFields.CITY_NAME]]
+            headers.append(Student.HEADERS[StudentFields.CITY_NAME])
         headers += [
             Student.HEADERS[StudentFields.LAST_NAME],
             Student.HEADERS[StudentFields.FIRST_NAME]
@@ -102,7 +103,8 @@ class Student:
         if Student.view_school_attributes:
             headers += [Student.HEADERS[StudentFields.GRADE], Student.HEADERS[StudentFields.SCHOOL_NAME]]
         if Student.view_last_round_attributes:
-            headers += [Student.HEADERS[StudentFields.LAST_ROUND], Student.HEADERS[StudentFields.DATE]]
+            headers.append(Student.HEADERS[StudentFields.LAST_ROUND])
+        headers.append(Student.HEADERS[StudentFields.DATE])
 
         return headers
 
