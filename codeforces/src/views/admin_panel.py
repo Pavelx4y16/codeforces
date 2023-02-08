@@ -45,12 +45,14 @@ def create_update_contests_panel():
 
 
 def create_update_grades_panel(id_, display_value):
-    return html.Div(children=[html.Button(display_value, id=id_, className='SbuttonStyle')])
+    return html.Div(children=[html.Button(display_value, id=id_, className='SbuttonStyle')],
+                    style={'display': "inline-block"})
 
 
 def create_remove_graduated_students_panel():
     return html.Div(children=[html.Button('Удалить выпускников', id=ComponentIds.REMOVE_GRADUATED_BUTTON.value,
-                                          className='SbuttonStyle')])
+                                          className='SbuttonStyle')],
+                    style={'display': "inline-block"})
 
 
 def create_admin_panel(visible=True):
