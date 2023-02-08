@@ -13,7 +13,7 @@ layout = html.Div(children=[
             dcc.Tab(label='Гомельская область', value='область', className="tabStyle")
         ], parent_className="tabzStyle", className="tabzConteiner")),
     html.Div(children=[
-        html.Div(children=[html.Button('Показать последние раунды',
+        html.Div(children=[html.Button('Показать название последнего раунда',
                                        id=ComponentIds.VIEW_LAST_ROUND_ATTRIBUTES_BUTTON.value,
                                        className='SbuttonStyle')
         ], className='insider'),
