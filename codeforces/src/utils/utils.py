@@ -1,4 +1,4 @@
-import enum
+from enum import Enum, auto
 from datetime import datetime
 from typing import Union
 
@@ -40,5 +40,19 @@ def isfloat(string: str) -> bool:
     return True
 
 
-class Delays(enum.Enum):
+class Delays(Enum):
     CODE_FORCES = 2
+
+
+class AppOptionality(Enum):
+    SHOW_TABS = 0
+    SORT_STUDENTS = auto()
+    CHANGE_LAST_ROUND_VIEW = auto()
+    CHANGE_SCHOOL_VIEW = auto()
+    ADD_STUDENT = auto()
+    REMOVE_STUDENT = auto()
+    REMOVE_GRADUATED_STUDENTS = auto()
+    UPDATE_CONTESTS = auto()
+    GRADE_STUDENTS_UP = auto()
+    GRADE_STUDENTS_DOWN = auto()
+    SHOW_STUDENTS_TABLE = auto()
