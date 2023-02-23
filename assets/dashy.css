@@ -65,7 +65,7 @@ ________________
   width: 60px;
 }
 .tableStyle {
-  font-size: 80%;
+  font-size: 100%;
 }
 .divStyle {
   //align: middle;
@@ -578,4 +578,8 @@ there.
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {
+}
+
+td.columnNameRounds_number {
+    text-align: center;
 }

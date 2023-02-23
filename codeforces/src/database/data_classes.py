@@ -38,7 +38,7 @@ class Student:
                 SortFields.DATE: lambda student: student.date if student.date != DEFAULTS['str'] else "0" * 10,
                 SortFields.ROUNDS_NUMBER: lambda student: student.rounds_number}
     HEADERS = ("Рейтинг", "Город", "Фамилия", "Имя", "Никнейм", "Класс", "Учебное заведение", "Последний раунд", "Дата",
-               "Кол-во раундов")
+               "Количество раундов")
     view_school_attributes = True  # make 'grade' and 'school_name' attributes visible
     view_last_round_attributes = True  # make 'last_round' name visible
     view_city_name = False
@@ -77,19 +77,22 @@ class Student:
     def __iter__(self):
         return (self.__dict__[attr] for attr in self.__dict__ if not attr.startswith('_'))
 
-    def display(self):
-        attributes = [self.rating]
+    def display(self) -> dict:
+        attributes = {StudentFields.RATING: self.rating}
         if self.view_city_name:
-            attributes.append(self.city_name)
-        attributes += [
-            html.A(self.last_name, href='https://codeforces.com/profile/' + self.nick_name, style={'color': self.color}),
-            html.A(self.first_name, href='https://codeforces.com/profile/' + self.nick_name, style={'color': self.color})
-        ]
+            attributes[StudentFields.CITY_NAME] = self.city_name
+        attributes[StudentFields.LAST_NAME] = html.A(self.last_name, href='https://codeforces.com/profile/' + self.nick_name, style={'color': self.color})
+        attributes[StudentFields.FIRST_NAME] = html.A(self.first_name, href='https://codeforces.com/profile/' + self.nick_name, style={'color': self.color})
+
         if self.view_school_attributes:
-            attributes += [self.grade, self.school_name]
+            attributes[StudentFields.GRADE] = self.grade
+            attributes[StudentFields.SCHOOL_NAME] = self.school_name
+
         if self.view_last_round_attributes:
-            attributes.append(self.last_round)
-        attributes += [to_date_str(self.date), self.rounds_number]
+            attributes[StudentFields.LAST_ROUND] = self.last_round
+
+        attributes[StudentFields.DATE] = to_date_str(self.date)
+        attributes[StudentFields.ROUNDS_NUMBER] = self.rounds_number
 
         return attributes
 
