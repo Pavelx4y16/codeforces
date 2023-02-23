@@ -1,4 +1,4 @@
-Рейтинг,Фамилия,Имя,Никнейм,Класс,Учебное заведение,Последний раунд,Дата,Кол-во раундов
+Рейтинг,Фамилия,Имя,Никнейм,Класс,Учебное заведение,Последний раунд,Дата,Количество раундов
 2140,Брель,Михаил,De_Coder,8,СШ 27,Educational Codeforces Round 140 (Rated for Div. 2),1671208500,55
 2108,Горбатовский,Дмитрий,topovik,10,Гимназия 51,Codeforces Round #829 (Div. 1),1666518600,44
 1794,Кардаш,Кирилл,-kirito-,7,СШ 8,Educational Codeforces Round 143 (Rated for Div. 2),1676565300,77
@@ -7,7 +7,6 @@
 1706,Ложечник,Иван,Senior,10,СШ 49,Codeforces Round #847 (Div. 3),1674838200,45
 1621,Сафонов,Иван,ivls,10,Гимнназия 2 г.Речица,Educational Codeforces Round 143 (Rated for Div. 2),1676565300,136
 1610,Процкий,Андрей,andvikpro,9,Гимназия 10,Codeforces Round #848 (Div. 2),1675269300,29
-1422,Savastseika,Pavel,Pavelx4y16,0,EPAM Systems,Codeforces Round #390 (Div. 2),1483720500,5
 1422,Savastseika,Pavel,Pavelx4y16,0,EPAM Systems,Codeforces Round #390 (Div. 2),1483720500,5
 1360,Марцинкевич,Геннадий,GenGenM,6,СШ 11,Educational Codeforces Round 143 (Rated for Div. 2),1676565300,34
 1218,Коцур,Артем,ArtKot,8,Гимназия 14,Codeforces Round #849 (Div. 4),1675443600,19
@@ -25,7 +24,6 @@
 881,Романов,Дмитрий,KiRT_Dimacik_,9,СШ 27,"Codeforces Round #850 (Div. 2, основан на Финальном раунде VK Cup 2022)",1675609500,6
 866,Хамиченок,Юрий,Jetstream_Sam,9,СШ 27,Codeforces Round #849 (Div. 4),1675443600,4
 844,Аксёненко,Валерий,Vabbaj,10,СШ 60,Codeforces Round #852 (Div. 2),1676198100,4
-844,Aksenenko,Valeriy,Vabbaj,0,СШ 60,Codeforces Round #852 (Div. 2),1676198100,4
 836,Хомец,Роман,R0mch1k,9,СШ 27,Codeforces Round #849 (Div. 4),1675443600,10
 827,Карасёв,Владимир,KarasikaKun,9,СШ 27,Codeforces Round #852 (Div. 2),1676198100,4
 825,Семашев,Герман,Sakuta_uwu,9,СШ 27,Educational Codeforces Round 143 (Rated for Div. 2),1676565300,9
@@ -38,6 +36,6 @@
 371,Терешко,Александр,alexanderter10,7,СШ 61,Codeforces Round #827 (Div. 4),1665680400,1
 350,Здановская,Ульяна,Loquterr,9,СШ 27,Codeforces Round #827 (Div. 4),1665680400,1
 199,Иванов,Александр,MuP_HaO6OPOT,8,СШ 24,Codeforces Round #722 (Div. 2),1621875000,12
-0,UNKNOWN,UNKNOWN,ishachok,0,"Гомель,СШ 27",UNKNOWN,UNKNOWN,0
+0,Борняков,Илья,ishachok,9,СШ 27,UNKNOWN,UNKNOWN,0
 1422,Savastseika,Pavel,Pavelx4y16,0,EPAM Systems,UNKNOWN,UNKNOWN,0
 844,Aksenenko,Valeriy,Vabbaj,0,СШ 60,UNKNOWN,UNKNOWN,0

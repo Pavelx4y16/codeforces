@@ -1,7 +1,7 @@
 from dash import html
 
 from codeforces.src.database.data_base import DbClient
-from codeforces.src.database.data_classes import Student, SortFields
+from codeforces.src.database.data_classes import Student, SortFields, StudentFields
 
 
 def create_students_table(db_client: DbClient, current_tab, sort_kind):
@@ -20,6 +20,8 @@ def create_students_table(db_client: DbClient, current_tab, sort_kind):
                     html.Tr([html.Th(header) for header in Student.display_headers()])
                 ),
                 html.Tbody([
-                    html.Tr([html.Td(attr) for attr in student.display()]) for student in students
+                    html.Tr([html.Td(column_value, className=f"columnName{column_name.name.capitalize()}")
+                                    for column_name, column_value in student.display().items()])
+                                        for student in students
                 ])
     ], className="tableStyle")
