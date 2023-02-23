@@ -7,7 +7,7 @@ from codeforces.src.database.data_classes import Student, StudentFields
 from codeforces.src.database.serializer import Serializer
 from codeforces.src.utils.singleton import Singleton
 from codeforces.src.utils.str_utils import split_fio
-from codeforces.src.utils.utils import validate_arguments, to_str
+from codeforces.src.utils.utils import validate_arguments, to_str, DEFAULTS
 
 
 @validate_arguments
@@ -100,11 +100,12 @@ class DbClient(Singleton):
         if not user_info:
             raise Exception(f"there is no user with such nick_name: {nick_name}")
 
-        student_info = [user_info.get('rating'), user_info.get('city') or city_name.capitalize()]
+        student_info = [user_info.get('rating', DEFAULTS['int']), user_info.get('city') or city_name.capitalize()]
 
         last_name, first_name = split_fio(fio)
-        student_info += [last_name or user_info.get('lastName'), first_name or user_info.get('firstName'),
-                         nick_name, grade, school_name or user_info.get('organization'), None, None]
+        student_info += [last_name or user_info.get('lastName', DEFAULTS['str']),
+                         first_name or user_info.get('firstName', DEFAULTS['str']),
+                         nick_name, grade, school_name or user_info.get('organization'), DEFAULTS['str'], DEFAULTS['str']]
 
         new_student = Serializer.deserialize_one(student_info)
         self._save_city(city_name, self.cities[city_name] + [new_student])

@@ -42,7 +42,7 @@ class CodeForcesApi(ObserverSubject):
     def __init__(self, home_url="https://codeforces.com/", lang="ru"):
         super().__init__()
 
-        self.home_url = "https://codeforces.com/"
+        self.home_url = home_url
         self.base_params = {'lang': lang}
 
     def _get(self, url: str) -> ParsedResponse:
