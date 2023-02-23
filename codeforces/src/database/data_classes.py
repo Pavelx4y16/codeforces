@@ -33,7 +33,7 @@ class Student:
     sort_map = {SortFields.RATING: lambda student: student.rating,
                 SortFields.FIO: lambda student: student.last_name + student.first_name,
                 SortFields.GRADE: lambda student: student.grade,
-                SortFields.DATE: lambda student: student.date if student.date != DEFAULTS['str'] else "00.00.0000"}
+                SortFields.DATE: lambda student: student.date if student.date != DEFAULTS['str'] else "0" * 10}
     HEADERS = ("Рейтинг", "Город", "Фамилия", "Имя", "Никнейм", "Класс", "Учебное заведение", "Последний раунд", "Дата")
     view_school_attributes = True  # make 'grade' and 'school_name' attributes visible
     view_last_round_attributes = True  # make 'last_round' name visible
