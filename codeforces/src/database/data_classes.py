@@ -11,6 +11,7 @@ class SortFields(Enum):
     FIO = "fio"
     GRADE = "grade"
     DATE = "date"
+    ROUNDS_NUMBER = "rounds_number"
 
 
 @unique
@@ -24,6 +25,7 @@ class StudentFields(IntEnum):
     SCHOOL_NAME = auto()
     LAST_ROUND = auto()
     DATE = auto()
+    ROUNDS_NUMBER = auto()
 
 
 @validate_arguments
@@ -33,25 +35,24 @@ class Student:
     sort_map = {SortFields.RATING: lambda student: student.rating,
                 SortFields.FIO: lambda student: student.last_name + student.first_name,
                 SortFields.GRADE: lambda student: student.grade,
-                SortFields.DATE: lambda student: student.date if student.date != DEFAULTS['str'] else "0" * 10}
-    HEADERS = ("Рейтинг", "Город", "Фамилия", "Имя", "Никнейм", "Класс", "Учебное заведение", "Последний раунд", "Дата")
+                SortFields.DATE: lambda student: student.date if student.date != DEFAULTS['str'] else "0" * 10,
+                SortFields.ROUNDS_NUMBER: lambda student: student.rounds_number}
+    HEADERS = ("Рейтинг", "Город", "Фамилия", "Имя", "Никнейм", "Класс", "Учебное заведение", "Последний раунд", "Дата",
+               "Кол-во раундов")
     view_school_attributes = True  # make 'grade' and 'school_name' attributes visible
     view_last_round_attributes = True  # make 'last_round' name visible
     view_city_name = False
 
-    def __validate_init_arguments(self, rating, city_name, last_name, first_name, nick_name, grade, school_name, last_round, date):
-        assert isinstance(rating, int)
-        assert isinstance(city_name, str)
-        assert isinstance(last_name, str)
-        assert isinstance(first_name, str)
-        assert isinstance(nick_name, str)
-        assert isinstance(grade, int)
-        assert isinstance(school_name, str)
-        assert isinstance(last_round, str)
-        assert isinstance(date, str)
+    def __validate_init_arguments(self, rating, city_name, last_name, first_name, nick_name, grade, school_name,
+                                  last_round, date, rounds_number):
+        def _validate_arguments_on_type(arguments, type_):
+            assert all([argument is not None and isinstance(argument, type_) for argument in arguments])
+
+        _validate_arguments_on_type([rating, grade, rounds_number], int)
+        _validate_arguments_on_type([city_name, last_name, first_name, nick_name, school_name, last_round, date], str)
 
     def __init__(self, rating: int, city_name: str, last_name: str, first_name: str, nick_name: str,
-                 grade: int, school_name: str, last_round: str, date: str):
+                 grade: int, school_name: str, last_round: str, date: str, rounds_number: int):
         self.rating = rating
         self._city_name = city_name
         self.last_name = last_name
@@ -61,6 +62,7 @@ class Student:
         self.school_name = school_name
         self.last_round = last_round
         self.date = date
+        self.rounds_number = rounds_number
 
     @property
     def city_name(self):
@@ -87,7 +89,7 @@ class Student:
             attributes += [self.grade, self.school_name]
         if self.view_last_round_attributes:
             attributes.append(self.last_round)
-        attributes.append(to_date_str(self.date))
+        attributes += [to_date_str(self.date), self.rounds_number]
 
         return attributes
 
@@ -104,7 +106,7 @@ class Student:
             headers += [Student.HEADERS[StudentFields.GRADE], Student.HEADERS[StudentFields.SCHOOL_NAME]]
         if Student.view_last_round_attributes:
             headers.append(Student.HEADERS[StudentFields.LAST_ROUND])
-        headers.append(Student.HEADERS[StudentFields.DATE])
+        headers += [Student.HEADERS[StudentFields.DATE], Student.HEADERS[StudentFields.ROUNDS_NUMBER]]
 
         return headers
 

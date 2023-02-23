@@ -1,5 +1,4 @@
 import dash
-import dash_bootstrap_components.themes
 
 from codeforces.src.controllers.controllers import register_callbacks
 from codeforces.src.views.layout import layout
