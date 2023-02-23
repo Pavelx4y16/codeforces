@@ -68,6 +68,7 @@ class DbClient(Singleton):
                 student.last_round = last_contest["contestName"]
                 student.date = to_str(last_contest["ratingUpdateTimeSeconds"])
                 student.rating = last_contest["newRating"]
+                student.rounds_number = len(user_contests_info)
         self._update_db()
 
     def _update_grade(self, number):
@@ -105,7 +106,8 @@ class DbClient(Singleton):
         last_name, first_name = split_fio(fio)
         student_info += [last_name or user_info.get('lastName', DEFAULTS['str']),
                          first_name or user_info.get('firstName', DEFAULTS['str']),
-                         nick_name, grade, school_name or user_info.get('organization'), DEFAULTS['str'], DEFAULTS['str']]
+                         nick_name, grade, school_name or user_info.get('organization'), DEFAULTS['str'],
+                         DEFAULTS['str'], DEFAULTS['int']]
 
         new_student = Serializer.deserialize_one(student_info)
         self._save_city(city_name, self.cities[city_name] + [new_student])

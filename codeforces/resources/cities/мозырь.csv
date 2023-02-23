@@ -1,12 +1,12 @@
-Рейтинг,Фамилия,Имя,Никнейм,Класс,Учебное заведение,Последний раунд,Дата
-2107,Полынь,Станислав,stanislau,11,КЮП,"Codeforces Round #850 (Div. 1, основан на Финальном раунде VK Cup 2022)",1675609500
-1673,Жуков,Иван,ivna,10,КЮП,"Codeforces Round #850 (Div. 2, основан на Финальном раунде VK Cup 2022)",1675609500
-1532,Бычик,Игорь,kurwa,10,КЮП,"Codeforces Round #850 (Div. 2, основан на Финальном раунде VK Cup 2022)",1675609500
-1487,Кошман,Иван,zxcigan,8,КЮП,"Codeforces Round #850 (Div. 2, основан на Финальном раунде VK Cup 2022)",1675609500
-1395,Тимошенко,Андрей,GLASIABOLAS,10,КЮП,Codeforces Round #848 (Div. 2),1675269300
-1385,Круц,Егор,Spawnpoint,10,КЮП,"TypeDB Forces 2023 (Div. 1 + Div. 2, Rated, Prizes!)",1675013700
-2043,Кошман,Григорий,gesgha,11,КЮП,"Polynomial Round 2022 (Div. 1 + Div. 2, Rated, Prizes!)",1671296700
-1908,Брыкульская,Мария,masgha,11,КЮП,"Polynomial Round 2022 (Div. 1 + Div. 2, Rated, Prizes!)",1671296700
-1448,Гончар,Иван,Legend_117,8,КЮП,Codeforces Round #821 (Div. 2),1663605300
-1265,Ванюшкин,Александр,Detroit.beau,10,КЮП,Codeforces Global Round 21,1656175800
-1184,Сосновский,Егор,Ehorych,11,КЮП,Технокубок 2021 - Отборочный Раунд 3,1608483900
+Рейтинг,Фамилия,Имя,Никнейм,Класс,Учебное заведение,Последний раунд,Дата,Кол-во раундов
+2107,Полынь,Станислав,stanislau,11,КЮП,"Codeforces Round #850 (Div. 1, основан на Финальном раунде VK Cup 2022)",1675609500,145
+2043,Кошман,Григорий,gesgha,11,КЮП,"Polynomial Round 2022 (Div. 1 + Div. 2, Rated, Prizes!)",1671296700,60
+1908,Брыкульская,Мария,masgha,11,КЮП,"Polynomial Round 2022 (Div. 1 + Div. 2, Rated, Prizes!)",1671296700,79
+1717,Жуков,Иван,ivna,10,КЮП,Educational Codeforces Round 143 (Rated for Div. 2),1676565300,195
+1553,Бычик,Игорь,kurwa,10,КЮП,Educational Codeforces Round 143 (Rated for Div. 2),1676565300,50
+1470,Кошман,Иван,zxcigan,8,КЮП,Codeforces Round #851 (Div. 2),1675960500,40
+1448,Гончар,Иван,Legend_117,8,КЮП,Codeforces Round #821 (Div. 2),1663605300,62
+1395,Тимошенко,Андрей,GLASIABOLAS,10,КЮП,Codeforces Round #848 (Div. 2),1675269300,81
+1385,Круц,Егор,Spawnpoint,10,КЮП,"TypeDB Forces 2023 (Div. 1 + Div. 2, Rated, Prizes!)",1675013700,99
+1265,Ванюшкин,Александр,Detroit.beau,10,КЮП,Codeforces Global Round 21,1656175800,92
+1184,Сосновский,Егор,Ehorych,11,КЮП,Технокубок 2021 - Отборочный Раунд 3,1608483900,5

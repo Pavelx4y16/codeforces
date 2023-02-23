@@ -24,7 +24,8 @@ layout = html.Div(children=[
                     {'label': 'Сортировать по рейтингу', 'value': SortFields.RATING.value},
                     {'label': 'Сортировать по ФИО', 'value': SortFields.FIO.value},
                     {'label': 'Сортировать по классу', 'value': SortFields.GRADE.value},
-                    {'label': 'Сортировать по дате последнего участия', 'value': SortFields.DATE.value}
+                    {'label': 'Сортировать по дате последнего участия', 'value': SortFields.DATE.value},
+                    {'label': 'Сортировать по кол-ву раундов', 'value': SortFields.ROUNDS_NUMBER.value}
                 ],
                 value='rating'
             )
