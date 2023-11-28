@@ -85,7 +85,9 @@ class Student:
         return self.__dict__[key]
 
     def dict(self) -> dict:
-        return {key: self[key] for key in self.attributes}
+        student = {key: self[key] for key in self.attributes}
+        student["city"] = self.city_name
+        return student
 
     def display(self) -> dict:
         attributes = {StudentFields.RATING: self.rating}
