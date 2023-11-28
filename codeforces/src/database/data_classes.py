@@ -74,8 +74,20 @@ class Student:
             if self.rating >= rating:
                 return color
 
+    @property
+    def attributes(self):
+        return (attr for attr in self.__dict__ if not attr.startswith('_'))
+
     def __iter__(self):
-        return (self.__dict__[attr] for attr in self.__dict__ if not attr.startswith('_'))
+        return (self.__dict__[attr] for attr in self.attributes)
+    
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
+    def dict(self) -> dict:
+        student = {key: self[key] for key in self.attributes} | \
+            {"city": self.city_name}
+        return student
 
     def display(self) -> dict:
         attributes = {StudentFields.RATING: self.rating}
