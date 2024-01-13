@@ -12,12 +12,21 @@ def test_get_method(codeforces_client):
     assert len(data) == 2
 
 
-def test_get_contests(codeforces_client):
+def test_get_user_contests(codeforces_client):
     student = Mock()
     student.nick_name = "Pavelx4y16"
     data = codeforces_client.get_user_contests(student)
 
-    assert len(data) == 5
+    assert data
+
+
+def test_get_user_contests_with_old_nick_name(codeforces_client):
+    student = Mock()
+    student.nick_name = "-kirito-"
+    data = codeforces_client.get_user_contests(student)
+
+    assert data
+    assert student.nick_name == "k1r1t0"
 
 
 def test_get_user_info(codeforces_client):
@@ -42,6 +51,7 @@ def test_get_users_info(codeforces_client, db_client):
 @pytest.mark.skip(reason="this test takes to long time")
 def test_get_users_contests(codeforces_client, db_client):
     students = db_client.students
+    # todo: why not just len(students) ???
     total = len({student.nick_name for student in students})
     users_contests = codeforces_client.get_users_contests(students).values()
 
@@ -49,3 +59,13 @@ def test_get_users_contests(codeforces_client, db_client):
 
     failed = len([user_info for user_info in users_contests if user_info is None])
     print(f"Failure percentage: {failed / total}")  # failures may be here because of non-existing nick_names
+
+
+def test_update_nick_name(codeforces_client):
+    # old nick_name is '-kirito-'
+    updated_nick_name = codeforces_client.update_nick_name(nick_name="-kirito-")
+    assert updated_nick_name == "k1r1t0"
+
+    # if the function is run on actual (not old) nick_name
+    updated_nick_name = codeforces_client.update_nick_name(nick_name="k1r1t0")
+    assert updated_nick_name == "k1r1t0"

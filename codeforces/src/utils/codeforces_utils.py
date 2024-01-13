@@ -29,4 +29,3 @@ class ParsedResponse:
             self.result = json['result'] if json else response.text
         else:
             self.reason = json['comment']
-
