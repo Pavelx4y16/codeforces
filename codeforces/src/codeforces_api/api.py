@@ -59,11 +59,21 @@ class CodeForcesApi(ObserverSubject):
     def update_nick_name(self, nick_name: str) -> str:
         response = self.get_user_profile(nick_name)
         if response.status_code == 200 and response.url != self.home_url:
-            return response.url.split('/')[-1]
+            nick_name = response.url.split('/')[-1]
+
+            # it can happen that url has some parameters, like:
+            # http/.../nick_name?lang=ru...
+            # so, we need to exclude those parameters from nick_name
+            position_of_parameters_sign = nick_name.find("?")
+            if position_of_parameters_sign != -1:
+                nick_name = nick_name[:position_of_parameters_sign]
+
+            return nick_name
 
     def get_user_contests(self, student: Student) -> dict:
         response = self._get(f"api/user.rating?handle={student.nick_name}")
-        if response.status_code != 200 and "handle:" in response.reason:
+        if response.status_code != 200 and \
+                f"handle: User {student.nick_name} not found" in response.reason:
             updated_nick_name = self.update_nick_name(student.nick_name)
 
             if updated_nick_name:
@@ -75,6 +85,7 @@ class CodeForcesApi(ObserverSubject):
     def get_users_contests(self, students: List[Student]) -> dict:
         users_contests = dict()
         for processed, student in enumerate(students, start=1):
+            # todo: vanish variable 'user_contests'
             user_contests = self.get_user_contests(student)
             self.notify(processed / len(students))
             users_contests[student.nick_name] = user_contests
