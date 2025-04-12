@@ -52,9 +52,7 @@ class CodeForcesApi(ObserverSubject):
         return ParsedResponse(response)
 
     def get_user_profile(self, nick_name):
-        response = self._get(f"profile/{nick_name}")
-        if response.status_code == 200:
-            return response
+        return self._get(f"profile/{nick_name}")
 
     def update_nick_name(self, nick_name: str) -> str:
         response = self.get_user_profile(nick_name)
@@ -81,6 +79,8 @@ class CodeForcesApi(ObserverSubject):
                 student.nick_name = updated_nick_name  # save
         if response.status_code == 200:
             return response.result
+        else:
+            logger.log(f"Something went wrong with {student} while updating Contests")
 
     def get_users_contests(self, students: List[Student]) -> dict:
         users_contests = dict()

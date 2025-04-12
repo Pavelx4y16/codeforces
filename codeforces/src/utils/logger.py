@@ -1,7 +1,7 @@
 import pathlib
+from datetime import datetime
 
 import settings
-from codeforces.src.utils.path_utils import recreate_file
 from codeforces.src.utils.utils import validate_arguments
 
 
@@ -14,8 +14,7 @@ class Logger:
 
     def __init__(self, name, path=settings.logger_path):
         path.mkdir(exist_ok=True)
-        self.logger_file = path / f"{name}.log"
-        recreate_file(self.logger_file)
+        self.logger_file = path / f"{name}_{datetime.now()}.log"
 
     def log(self, message: str):
         with self.logger_file.open(mode="a") as file:

@@ -62,13 +62,14 @@ class DbClient(Singleton):
 
     def update_users_contests(self, users_contests_info, students: List[Student]):
         for student in students:
-            user_contests_info = users_contests_info[student.nick_name]
-            if user_contests_info:
-                last_contest = user_contests_info[-1]
-                student.last_round = last_contest["contestName"]
-                student.date = to_str(last_contest["ratingUpdateTimeSeconds"])
-                student.rating = last_contest["newRating"]
-                student.rounds_number = len(user_contests_info)
+            if student.nick_name in users_contests_info:
+                user_contests_info = users_contests_info[student.nick_name]
+                if user_contests_info:
+                    last_contest = user_contests_info[-1]
+                    student.last_round = last_contest["contestName"]
+                    student.date = to_str(last_contest["ratingUpdateTimeSeconds"])
+                    student.rating = last_contest["newRating"]
+                    student.rounds_number = len(user_contests_info)
         self._update_db()
 
     def _update_grade(self, number):
