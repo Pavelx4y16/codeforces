@@ -28,4 +28,4 @@ class ParsedResponse:
         if self.status_code == 200:
             self.result = json['result'] if json else response.text
         else:
-            self.reason = json['comment']
+            self.reason = json['comment'] if json else response.reason
